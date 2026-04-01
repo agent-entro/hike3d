@@ -1,6 +1,8 @@
 /**
  * hike3d Express server entry point.
- * Serves the API on port 3000. Vite dev server proxies /api/* and /tiles/* here.
+ * Serves the API on the port defined by the PORT env var (default 3000).
+ * Vite dev server proxies /api/* and /tiles/* here.
+ * Port and other config are loaded from .env via --env-file (Node 20.6+).
  */
 
 import express from 'express';
