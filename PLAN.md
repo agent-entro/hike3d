@@ -375,21 +375,21 @@ trails
 
 ### Phase Plan
 
-#### Phase 1 — Skeleton (Days 1–3)
+#### Phase 1 — Skeleton (Days 1–3) [DONE]
 
 **Goal**: Express serves React app, SQLite initialized, anonymous sessions work.
 
 **Tasks:**
-1. Initialize project: `npm init`, install `express`, `better-sqlite3`, `jsonwebtoken`, `uuid`, `ws`, `cors`
-2. Create Express server entry point (`server/index.js`) with CORS middleware for Vite dev proxy
-3. Write SQL migration `001_create_tables.sql` — create all 6 tables with indexes
-4. Build migration runner: reads `.sql` files from `server/db/migrations/`, applies in order, tracks in `schema_version` table
-5. Implement `POST /api/session/create` — generate UUID, random 32-byte hex secret, sign JWT, set httpOnly cookie
-6. Implement `POST /api/session/validate` — verify JWT, update `last_active_at`
-7. Scaffold Vite + React + Tailwind project in `client/`
-8. Create `useSession` hook — check JWT on load, create if missing
-9. Build app shell layout: left panel (search), center (3D viewport placeholder), bottom (elevation profile placeholder)
-10. Configure Vite proxy: `/api/*` and `/tiles/*` → `localhost:3000`
+- [x] Initialize project: `npm init`, install `express`, `better-sqlite3`, `jsonwebtoken`, `uuid`, `ws`, `cors`
+- [x] Create Express server entry point (`server/index.js`) with CORS middleware for Vite dev proxy
+- [x] Write SQL migration `001_create_tables.sql` — create all 6 tables with indexes
+- [x] Build migration runner: reads `.sql` files from `server/db/migrations/`, applies in order, tracks in `schema_version` table
+- [x] Implement `POST /api/session/create` — generate UUID, random 32-byte hex secret, sign JWT, set httpOnly cookie
+- [x] Implement `POST /api/session/validate` — verify JWT, update `last_active_at`
+- [x] Scaffold Vite + React + Tailwind project in `client/`
+- [x] Create `useSession` hook — check JWT on load, create if missing
+- [x] Build app shell layout: left panel (search), center (3D viewport placeholder), bottom (elevation profile placeholder)
+- [x] Configure Vite proxy: `/api/*` and `/tiles/*` → `localhost:3000`
 
 **Validation**: `npm run dev` starts both servers, browser shows app shell, JWT cookie is set.
 
