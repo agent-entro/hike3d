@@ -76,6 +76,10 @@ export default defineConfig(({ mode }) => {
   const serverPort = env.SERVER_PORT || 3000;
   const apiTarget = `http://localhost:${serverPort}`;
 
+  // VITE_PORT controls which port the dev server binds to.
+  // Set it in client/.env to avoid conflicts with other local services.
+  const vitePort = parseInt(env.VITE_PORT, 10) || 5173;
+
   return {
     plugins: [
       react(),
@@ -89,7 +93,7 @@ export default defineConfig(({ mode }) => {
     },
 
     server: {
-      port: 5173,
+      port: vitePort,
       proxy: {
         // Forward /api/* and /tiles/* to the Express server.
         // Target port is driven by SERVER_PORT in client/.env so it stays
