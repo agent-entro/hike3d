@@ -67,9 +67,14 @@ function swHashInjectPlugin(hash) {
 }
 
 export default defineConfig(({ mode }) => {
-  // Load .env so VITE_BUILD_HASH is available at config time
+  // Load .env so VITE_BUILD_HASH and SERVER_PORT are available at config time.
+  // loadEnv uses '' prefix to capture all variables, not just VITE_-prefixed ones.
   const env = loadEnv(mode, __dirname, '');
   const buildHash = resolveBuildHash(env);
+
+  // SERVER_PORT must match PORT in the root .env (default 3000 if not set).
+  const serverPort = env.SERVER_PORT || 3000;
+  const apiTarget = `http://localhost:${serverPort}`;
 
   return {
     plugins: [
@@ -86,12 +91,15 @@ export default defineConfig(({ mode }) => {
     server: {
       port: 5173,
       proxy: {
+        // Forward /api/* and /tiles/* to the Express server.
+        // Target port is driven by SERVER_PORT in client/.env so it stays
+        // in sync with PORT in the root .env without hardcoding.
         '/api': {
-          target: 'http://localhost:3000',
+          target: apiTarget,
           changeOrigin: true,
         },
         '/tiles': {
-          target: 'http://localhost:3000',
+          target: apiTarget,
           changeOrigin: true,
         },
       },
