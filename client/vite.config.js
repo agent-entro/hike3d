@@ -79,6 +79,7 @@ export default defineConfig(({ mode }) => {
   // VITE_PORT controls which port the dev server binds to.
   // Set it in client/.env to avoid conflicts with other local services.
   const vitePort = parseInt(env.VITE_PORT, 10) || 5173;
+  const websocketHost = env.ALLOWED_HOSTS ? env.ALLOWED_HOSTS.split(',')[0] : 'localhost';
 
   return {
     plugins: [
@@ -92,8 +93,17 @@ export default defineConfig(({ mode }) => {
       'import.meta.env.VITE_BUILD_HASH': JSON.stringify(buildHash),
     },
 
+    base: "/hike",
+
     server: {
+      allowedHosts: env.ALLOWED_HOSTS ? env.ALLOWED_HOSTS.split(',') : ['localhost'],
       port: vitePort,
+      hmr: {
+        host: websocketHost,
+        protocol: websocketHost === 'localhost' ? 'ws' : 'wss',
+        port: vitePort,
+        path: '/ws',
+      },
       proxy: {
         // Forward /api/* and /tiles/* to the Express server.
         // Target port is driven by SERVER_PORT in client/.env so it stays
@@ -101,10 +111,12 @@ export default defineConfig(({ mode }) => {
         '/api': {
           target: apiTarget,
           changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api/, ''),
         },
         '/tiles': {
           target: apiTarget,
           changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/tiles/, ''),
         },
       },
     },
