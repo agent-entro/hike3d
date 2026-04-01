@@ -400,22 +400,22 @@ trails
 **Goal**: Search for a trail by name and get structured data back.
 
 **Tasks:**
-1. Build `osmService.js`:
+- [x] Build `osmService.js`:
    - `geocode(query)` — Nominatim HTTP request, return bounding box
    - `searchTrails(bbox, nameFilter)` — Overpass API query for `relation["route"="hiking"]`, parse JSON response
    - `buildGeoJSON(osmRelation)` — convert OSM ways/nodes into GeoJSON LineString
-2. Build `elevationService.js`:
+- [x] Build `elevationService.js`:
    - `fetchElevation(points[])` — batch POST to OpenTopoData (100 pts/request), return `[{lat, lon, elevation_m}]`
    - In-memory LRU cache (Map, 1000 entries) for individual elevation lookups
    - SQLite cache: store elevation profile per trail to avoid re-fetching
-3. Build `trailService.js`:
+- [x] Build `trailService.js`:
    - `searchAndBuild(query)` — orchestrate: geocode → Overpass → sample points → fetch elevation → compute stats → insert into `trails` table → return
    - `computeStats(elevationProfile)` — distance, gain, loss, max, min, difficulty classification
    - `extractWaypoints(osmData, trailId)` — find tagged nodes (trailhead, summit, etc.), insert into `waypoints`
-4. Implement `GET /api/trails/search` — calls `trailService.searchAndBuild`, returns result list
-5. Implement `GET /api/trails/:id` — fetch full trail record from SQLite
-6. Build `SearchPanel.jsx` — debounced input, result list with loading skeleton
-7. Wire search results to display: name, distance, elevation gain, difficulty badge
+- [x] Implement `GET /api/trails/search` — calls `trailService.searchAndBuild`, returns result list
+- [x] Implement `GET /api/trails/:id` — fetch full trail record from SQLite
+- [x] Build `SearchPanel.jsx` — debounced input, result list with loading skeleton
+- [x] Wire search results to display: name, distance, elevation gain, difficulty badge
 
 **Validation**: Type "Mount Tamalpais" → get 3-5 results with real distance/elevation data.
 
@@ -429,22 +429,22 @@ trails
 **Goal**: Select a trail from search results and see it rendered on 3D terrain.
 
 **Tasks:**
-1. Build tile proxy (`server/routes/tiles.js`):
+1. [x] Build tile proxy (`server/routes/tiles.js`):
    - `GET /tiles/terrain/:z/:x/:y` — check `cache/tiles/terrain/{z}/{x}/{y}.png`, if miss → fetch from AWS terrain tiles S3 bucket, save to filesystem, serve
    - `GET /tiles/satellite/:z/:x/:y` — same pattern for OSM raster tiles
    - Set `Cache-Control: max-age=86400` on responses
-2. Build `Viewport3D.jsx`:
+2. [x] Build `Viewport3D.jsx`:
    - Initialize MapLibre GL JS with `terrain` source pointing to `/tiles/terrain/{z}/{x}/{y}`
    - Set `terrain` property with exaggeration factor (default 1.5)
    - Add raster source pointing to `/tiles/satellite/{z}/{x}/{y}`
-3. Add deck.gl overlay to MapLibre:
+3. [x] Add deck.gl overlay to MapLibre:
    - `PathLayer` — trail polyline from GeoJSON coordinates, elevated 2m above terrain
    - `IconLayer` — waypoint markers with type-specific icons (SVG sprites: trailhead, summit, water, etc.)
-4. Build `useTrail` hook:
+4. [x] Build `useTrail` hook:
    - Fetch trail data from API
    - Parse GeoJSON, compute bounding box
    - Fly camera to trail extent on load (`map.fitBounds`)
-5. Implement trail selection: click search result → `useTrail` fetches → `Viewport3D` renders
+5. [x] Implement trail selection: click search result → `useTrail` fetches → `Viewport3D` renders
 
 **Validation**: Click a search result → 3D terrain loads with trail line and waypoint markers visible.
 
