@@ -395,7 +395,7 @@ trails
 
 **Risks**: None significant. This is boilerplate.
 
-#### Phase 2 — Trail Data Pipeline (Days 4–7)
+#### Phase 2 — Trail Data Pipeline (Days 4–7) [DONE]
 
 **Goal**: Search for a trail by name and get structured data back.
 
@@ -424,7 +424,7 @@ trails
 - Nominatim rate limit (1 req/s). **Mitigation**: debounce search input at 500ms, never fire concurrent geocode requests.
 - OpenTopoData batching edge cases (points at sea, outside SRTM coverage). **Mitigation**: fallback to 0m elevation with a warning flag.
 
-#### Phase 3 — 3D Terrain Rendering (Days 8–12)
+#### Phase 3 — 3D Terrain Rendering (Days 8–12) [DONE]
 
 **Goal**: Select a trail from search results and see it rendered on 3D terrain.
 
