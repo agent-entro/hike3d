@@ -10,6 +10,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { openDb } from './db/migrate.js';
 import { sessionRouter } from './routes/session.js';
+import { gpxRouter } from './routes/gpx.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = process.env.PORT || 3000;
@@ -32,6 +33,7 @@ app.use(cookieParser());
 
 // --- Routes ---
 app.use('/api/session', sessionRouter(db));
+app.use('/api/gpx', gpxRouter(db));
 
 // Health check
 app.get('/api/health', (_req, res) => {
